@@ -1,6 +1,6 @@
 import pygame
 import element
-from datetime import datetime
+import time
 SZEROKOSC_EKRANU = 800
 WYSOKOSC_EKRANU = 600
 
@@ -50,12 +50,11 @@ while gra_dziala:
     ekran.blit(oczy_element.wybranyObraz(), (270, 130))
     ekran.blit(bron_element.wybranyObraz(), (270, 130))
 
-czas = datetime.now()
-print(f"Aktualna data i godzina: {czas}")
 
-if zapisywanie:
-    pygame.image.save(ekran, 'postac.png', czas)
-    zapisywanie = False
+    if zapisywanie:
+        timestamp = time.strftime('%Y%m%d%H%M%S')
+        pygame.image.save(ekran, f'postac{timestamp}.png')
+        zapisywanie = False
 
     wypisz_tekst(ekran, f'[Q] Glowa{nakrycie_glowy.wybrany}', (100, 100))
     wypisz_tekst(ekran, f'[W] Oczy{oczy_element.wybrany}', (100, 140))
