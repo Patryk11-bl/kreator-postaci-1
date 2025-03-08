@@ -1,5 +1,6 @@
 import pygame
 import element
+from datetime import datetime
 SZEROKOSC_EKRANU = 800
 WYSOKOSC_EKRANU = 600
 
@@ -23,6 +24,7 @@ oczy_element = element.OczyElement()
 bron_element = element.BronElement()
 
 gra_dziala = True
+zapisywanie = False
 while gra_dziala:
     for zdarzenie in pygame.event.get():
         if zdarzenie.type == pygame.KEYDOWN:
@@ -36,6 +38,8 @@ while gra_dziala:
                 ubranie_element.wybierzNastepny()
             if zdarzenie.key == pygame.K_r:
                 bron_element.wybierzNastepny()
+            if zdarzenie.key == pygame.K_s:
+                zapisywanie = True
         elif zdarzenie.type == pygame.QUIT:
             gra_dziala = False
 
@@ -46,10 +50,18 @@ while gra_dziala:
     ekran.blit(oczy_element.wybranyObraz(), (270, 130))
     ekran.blit(bron_element.wybranyObraz(), (270, 130))
 
+czas = datetime.now()
+print(f"Aktualna data i godzina: {czas}")
+
+if zapisywanie:
+    pygame.image.save(ekran, 'postac.png', czas)
+    zapisywanie = False
+
     wypisz_tekst(ekran, f'[Q] Glowa{nakrycie_glowy.wybrany}', (100, 100))
     wypisz_tekst(ekran, f'[W] Oczy{oczy_element.wybrany}', (100, 140))
     wypisz_tekst(ekran, f'[E] Ubranie{ubranie_element.wybrany}', (100, 180))
     wypisz_tekst(ekran, f'[R] Bron{bron_element.wybrany}', (100, 220))
+    wypisz_tekst(ekran, f'[S] Zapisz', (100, 260))
     pygame.display.flip()
     zegar.tick(30)
 
